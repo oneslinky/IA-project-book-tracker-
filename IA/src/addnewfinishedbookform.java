@@ -30,14 +30,12 @@ public class addnewfinishedbookform extends JFrame {
     private JLabel lbldeath;
     private JLabel lblsigmo;
     private JPanel addbook;
-
     public addnewfinishedbookform(){
         setContentPane(addbook);
         setTitle("book tracker");
         setSize(815, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-
         btnsave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

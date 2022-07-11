@@ -23,6 +23,7 @@ public class Mainform extends JFrame {
         setSize(815, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+
         btnfinread.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
