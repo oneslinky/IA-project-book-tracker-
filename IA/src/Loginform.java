@@ -27,6 +27,11 @@ public class Loginform extends JFrame {
                     Mainform mF1 = new Mainform();
                     mF1.show();
                 }
+                else if (txtuser.getText().equals("larapaulina")&& txtpass.getText().equals("0709")){
+                    dispose();
+                    Mainform mF1 = new Mainform();
+                    mF1.show();
+                }
                 else{
                     txtuser.setText("incorrect username or password. retry");
                     txtpass.setText("");

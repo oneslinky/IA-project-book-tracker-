@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Allquotesform extends JFrame{
     private JPanel allquote;
@@ -15,7 +18,18 @@ public class Allquotesform extends JFrame{
         setSize(815, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        try{
+            FileReader fr = new FileReader("Quotes.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String text;
+            br.skip(11);
+            text=br.readLine();
+            txtbookname.setText(text);
 
+        }
+        catch(IOException h){
+            System.out.println(h.getMessage());
+        }
         btnMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

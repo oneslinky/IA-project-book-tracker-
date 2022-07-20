@@ -15,7 +15,7 @@ public class Mainform extends JFrame {
     private JScrollPane jpdisplayread;
     private JScrollPane jpdisplaycurr;
     private JScrollPane jpdisplayrec;
-    private JTextField txtdquote;
+    private JTextArea txtranquote;
     static ArrayList<String> allquotes = new ArrayList<String>();
     int lineNumber;
     public Mainform() {
@@ -45,10 +45,10 @@ public class Mainform extends JFrame {
         }
         if(allquotes.size() > 0){
             int dquote = (int)(Math.random()*(allquotes.size()+1+1));
-            txtdquote.setText(allquotes.get(dquote));
+            txtranquote.setText(allquotes.get(dquote));
         }
         else{
-            txtdquote.setText("Enter quotes for this feature to work");
+            txtranquote.setText("Enter quotes for this feature to work");
         }
         btnfinread.addActionListener(new ActionListener() {
             @Override

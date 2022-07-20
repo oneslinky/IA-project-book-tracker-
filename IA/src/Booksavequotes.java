@@ -8,22 +8,22 @@ public class Booksavequotes extends JFrame {
     private JPanel onebookquotes;
     private JButton btnsave;
     private JButton goBackButton;
-    private JTextField txtbtitle;
-    private JTextField txtq0;
-    private JTextField txtq1;
-    private JTextField txtq2;
-    private JTextField txtq3;
-    private JTextField txtq4;
-    private JTextField txtq5;
-    private JTextField txtq6;
-    private JTextField txtq7;
-    private JTextField txtq8;
-    private JTextField txtq9;
+    private JTextArea txtbtitle;
+    private JTextArea txtq0;
+    private JTextArea txtq1;
+    private JTextArea txtq2;
+    private JTextArea txtq3;
+    private JTextArea txtq4;
+    private JTextArea txtq5;
+    private JTextArea txtq6;
+    private JTextArea txtq7;
+    private JTextArea txtq8;
+    private JTextArea txtq9;
     static ArrayList <Quotes> quoteList = new ArrayList<>();
     public Booksavequotes(){
         setContentPane(onebookquotes);
         setTitle("Book Tracker");
-        setSize(815, 600);
+        setSize(1000, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
