@@ -1,60 +1,77 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.*;
+import java.util.*;
 public class Mainform extends JFrame {
     private JButton btnfinread;
     private JButton btnaddfinread;
     private JButton btnallbookquote;
     private JButton btnquotes;
-    private JButton btncurrread;
     private JButton btneditcurr;
     private JButton btnrecc;
+    private JButton btnexit;
     private JPanel mform;
     private JScrollPane jpdisplayread;
-    private JScrollPane jpdisplayquote;
     private JScrollPane jpdisplaycurr;
     private JScrollPane jpdisplayrec;
-    private JButton btnexit;
-
+    private JTextField txtdquote;
+    static ArrayList<String> allquotes = new ArrayList<String>();
+    int lineNumber;
     public Mainform() {
         setContentPane(mform);
-        setTitle("book tracker");
+        setTitle("Book Tracker");
         setSize(815, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-
+        try{
+            FileReader fr = new FileReader("Quotes.txt");
+            BufferedReader br = new BufferedReader(fr);
+            lineNumber = 1;
+            String[] quotes = null;
+            String s;
+            while ((s = br.readLine())!=null){
+                if(lineNumber % 2 == 0){
+                     quotes = s.split("~");
+                    for(int i = 0; i < quotes.length; i++){
+                        allquotes.add(quotes[i]);
+                    }
+                }
+                lineNumber++;
+            }
+        }
+        catch (IOException h){
+            System.out.println(h.getMessage());
+        }
+        if(allquotes.size() > 0){
+            int dquote = (int)(Math.random()*(allquotes.size()+1+1));
+            txtdquote.setText(allquotes.get(dquote));
+        }
+        else{
+            txtdquote.setText("Enter quotes for this feature to work");
+        }
         btnfinread.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                finishedreadingform potato= new finishedreadingform();
-                potato.show();
-
+                Finishedreadingform finread1 = new Finishedreadingform();
+                finread1.show();
             }
         });
         btnaddfinread.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                addnewfinishedbookform potato= new addnewfinishedbookform();
-                potato.show();
+                Addnewfinishedbookform addFinread1 = new Addnewfinishedbookform();
+                addFinread1.show();
 
-            }
-        });
-        btncurrread.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                currentlyreadingform everyone=new currentlyreadingform();
-                everyone.show();
             }
         });
         btnallbookquote.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                allquotesform quote=new allquotesform();
+                Allquotesform quote=new Allquotesform();
                 quote.show();
             }
         });
@@ -62,7 +79,7 @@ public class Mainform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                booksavequotes bookq=new booksavequotes();
+                Booksavequotes bookq=new Booksavequotes();
                 bookq.show();
             }
         });
@@ -70,16 +87,16 @@ public class Mainform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                currentlyreadingeditform curryedit=new currentlyreadingeditform();
-                curryedit.show();
+                Addnewfinishedbookform curredit=new Addnewfinishedbookform();
+                curredit.show();
             }
         });
         btnrecc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                recommendationform delicous= new recommendationform();
-                delicous.show();
+                Recommendationform bookreccs = new Recommendationform();
+                bookreccs.show();
             }
         });
         btnexit.addActionListener(new ActionListener() {
@@ -90,6 +107,6 @@ public class Mainform extends JFrame {
         });
     }
     public static void main(String[] args){
-        Mainform pizza=new Mainform();
+        Mainform MF = new Mainform();
     }
 }
