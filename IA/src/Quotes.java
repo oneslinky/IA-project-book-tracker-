@@ -90,6 +90,6 @@ public class Quotes {
         this.q9 = q9;
     }
     public String toString(){
-        return "Book title:" + bookTitle + "\n" + q0 + "~" + q1 + "~" + q2 + "~" + q3+ "~" + q4 + "~" + q5+ "~" + q6 + "~" + q7+ "~" + q8 + "~" + q9 +";\n";
+        return  "\n"+ bookTitle + "~" + q0 + "~" + q1 + "~" + q2 + "~" + q3+ "~" + q4 + "~" + q5+ "~" + q6 + "~" + q7+ "~" + q8 + "~" + q9;
     }
 }

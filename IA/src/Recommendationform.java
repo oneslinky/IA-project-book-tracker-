@@ -33,7 +33,7 @@ public class Recommendationform extends JFrame {
     public Recommendationform(){
         setContentPane(reccomendations);
         setTitle("Book Tracker");
-        setSize(815,600);
+        setSize(2000,800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 

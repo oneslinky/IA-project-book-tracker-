@@ -21,18 +21,17 @@ public class Mainform extends JFrame {
     public Mainform() {
         setContentPane(mform);
         setTitle("Book Tracker");
-        setSize(815, 600);
+        setSize(2000, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         try{
             FileReader fr = new FileReader("Quotes.txt");
             BufferedReader br = new BufferedReader(fr);
             lineNumber = 1;
-            String[] quotes = null;
             String s;
             while ((s = br.readLine())!=null){
                 if(lineNumber % 2 == 0){
-                     quotes = s.split("~");
+                     String [] quotes = s.split("~");
                     for(int i = 0; i < quotes.length; i++){
                         allquotes.add(quotes[i]);
                     }

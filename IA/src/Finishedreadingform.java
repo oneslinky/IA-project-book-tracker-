@@ -9,24 +9,19 @@ public class Finishedreadingform extends JFrame {
     private JButton btneditcurread;
     private JButton btnadd;
     private JPanel finished;
-    private JTextField txtbtitle;
-    private JTextField txtauthname;
-    private JTextField txtstarrate;
     private JTextField txtbtitlecurr;
     private JTextField txtauthcurr;
     private JTextField txtstarcurr;
     private JLabel lbltitle;
-    private JLabel lblbtitle;
-    private JLabel lblaName;
-    private JLabel lblstarRate;
     private JLabel lblcurrread;
     private JLabel lblbtitlecurr;
     private JLabel lblaNamecurr;
     private JLabel lblstarratecurr;
+    private JTable table1;
 
     public Finishedreadingform(){
         setContentPane(finished);
-        setSize(815,600);
+        setSize(2000,800);
         setTitle("Book Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

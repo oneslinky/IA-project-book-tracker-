@@ -1,0 +1,1 @@
+Book Title~Author Name~Star Rating~Genre~Character~Review~Emotional Scale

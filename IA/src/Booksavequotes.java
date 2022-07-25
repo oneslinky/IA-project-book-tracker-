@@ -23,7 +23,7 @@ public class Booksavequotes extends JFrame {
     public Booksavequotes(){
         setContentPane(onebookquotes);
         setTitle("Book Tracker");
-        setSize(1000, 800);
+        setSize(2000, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -40,23 +40,6 @@ public class Booksavequotes extends JFrame {
                 }
                 catch (IOException h) {
                     System.out.print(h.getMessage());
-                }
-                try{
-                    char[] charBuffer = new char[50];
-                    FileReader fr = new FileReader("Quotes.txt");
-                    while (fr.read()!= -1){
-                        fr.read(charBuffer,10,-1);
-                        String btitle = ""+charBuffer[0];
-                        for(int i = 1; i<charBuffer.length;i++){
-                            btitle = charBuffer[i]+btitle;
-                        }
-                        if(btitle.equals(txtbtitle.getText())){
-
-                        }
-                    }
-                }
-                catch (IOException h){
-                    System.out.println(h.getMessage());
                 }
                 dispose();
                 Allquotesform aQuotes = new Allquotesform();
