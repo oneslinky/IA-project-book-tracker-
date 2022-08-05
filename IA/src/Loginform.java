@@ -16,7 +16,7 @@ public class Loginform extends JFrame {
 
     public Loginform(){
         setContentPane(lpage);
-        setSize(200,800);
+        setSize(800,400);
         setTitle("Book Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

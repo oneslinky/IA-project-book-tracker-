@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -12,16 +13,22 @@ public class Mainform extends JFrame {
     private JButton btnrecc;
     private JButton btnexit;
     private JPanel mform;
-    private JScrollPane jpdisplayread;
-    private JScrollPane jpdisplaycurr;
+    private JScrollPane scrollpanel;
     private JScrollPane jpdisplayrec;
     private JTextArea txtranquote;
+    private JTable tblbooks;
+    private JLabel lblcurrreadtitle;
+    private JTextField txtbtitlecurr;
+    private JLabel lblnotescurr;
+    private JTextArea txtreviewcurr;
     static ArrayList<String> allquotes = new ArrayList<String>();
     int lineNumber;
+    int startlineNumber = 0;
+    int endLineNumber = 0;
     public Mainform() {
         setContentPane(mform);
         setTitle("Book Tracker");
-        setSize(2000, 800);
+        setSize(1400, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         try{
@@ -30,7 +37,7 @@ public class Mainform extends JFrame {
             lineNumber = 1;
             String s;
             while ((s = br.readLine())!=null){
-                if(lineNumber % 2 == 0){
+                if(lineNumber > 1){
                      String [] quotes = s.split("~");
                     for(int i = 0; i < quotes.length; i++){
                         allquotes.add(quotes[i]);
@@ -48,6 +55,54 @@ public class Mainform extends JFrame {
         }
         else{
             txtranquote.setText("Enter quotes for this feature to work");
+        }
+        File file = new File("Booktracker.txt");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String firstLine = br.readLine().trim();
+            String[] columnsName = new String[1];
+            columnsName[0] = "Book title";
+            DefaultTableModel model = (DefaultTableModel) tblbooks.getModel();
+            model.setColumnIdentifiers(columnsName);
+            Object[] tableLines = br.lines().toArray();
+            for (int i = 0; i < tableLines.length; i++ ) {
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split("~",2);
+                String[] row = new String[1];
+                row[0] = dataRow[0];
+                model.addRow(row);
+            }
+            scrollpanel.add(new JTable(model));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            FileReader fr = new FileReader("Booktracker.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String s;
+            while ((s = br.readLine())!=null){
+                endLineNumber++;
+            }
+        }
+        catch (IOException h){
+            System.out.println(h.getMessage());
+        }
+        try{
+            FileReader fr = new FileReader("Booktracker.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String s;
+            while ((s = br.readLine())!=null){
+                if(startlineNumber == endLineNumber-1){
+                    String [] bookDetail = s.split("~");
+                    Finishedbook finBook = new Finishedbook(bookDetail[0],bookDetail[1],bookDetail[2],bookDetail[3],bookDetail[4],bookDetail[5],bookDetail[6]);
+                    txtbtitlecurr.setText(finBook.getBookTitle());
+                    txtreviewcurr.setText(finBook.getReview());
+                }
+                startlineNumber++;
+            }
+        }
+        catch (IOException h){
+            System.out.println(h.getMessage());
         }
         btnfinread.addActionListener(new ActionListener() {
             @Override
@@ -70,7 +125,7 @@ public class Mainform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                Allquotesform quote=new Allquotesform();
+                Allquotesform quote = new Allquotesform();
                 quote.show();
             }
         });

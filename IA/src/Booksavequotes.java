@@ -23,7 +23,7 @@ public class Booksavequotes extends JFrame {
     public Booksavequotes(){
         setContentPane(onebookquotes);
         setTitle("Book Tracker");
-        setSize(2000, 800);
+        setSize(1400, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 

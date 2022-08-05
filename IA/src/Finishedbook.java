@@ -58,6 +58,6 @@ public class Finishedbook {
         return emotionScale;
     }
     public String toString(){
-        return "Book title:" + bookTitle + "~" + authorName + "~" + starRating + "~" + genre + "~" + character + "~" + review + "~" + emotionScale +  "~";
+        return "\n" + bookTitle + "~" + authorName + "~" + starRating + "~" + genre + "~" + character + "~" + review + "~" + emotionScale +  "~";
     }
 }
