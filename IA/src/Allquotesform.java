@@ -11,10 +11,11 @@ public class Allquotesform extends JFrame {
     private JPanel allquote;
     private JButton btnMain;
     private JButton btnaddbook;
-    private JButton btnview;
+    private JButton btnserach;
     private JTable tblquotes;
     private JScrollPane tablepanel;
-    private JTextField textField1;
+    private JTextField txtbooksearch;
+    private JButton btnreset;
 
     public Allquotesform() {
         setContentPane(allquote);
@@ -22,6 +23,26 @@ public class Allquotesform extends JFrame {
         setSize(1400, 800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        File file = new File("Quotes.txt");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String firstLine = br.readLine().trim();
+            String[] columnsName = firstLine.split("~");
+            DefaultTableModel model = (DefaultTableModel) tblquotes.getModel();
+            model.setColumnIdentifiers(columnsName);
+            Object[] tableLines = br.lines().toArray();
+            for (int i = 0; i < tableLines.length; i++) {
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split("~");
+                model.addRow(dataRow);
+            }
+            tblquotes.setRowHeight(0,30);
+            packRows(tblquotes,50);
+            tblquotes.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+            tablepanel.add(new JTable(model));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         btnMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,9 +51,24 @@ public class Allquotesform extends JFrame {
                 mF1.show();
             }
         });
-        btnview.addActionListener(new ActionListener() {
+        btnaddbook.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
+                Booksavequotes addBSQ = new Booksavequotes();
+                addBSQ.show();
+            }
+        });
+        btnserach.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookSearched = txtbooksearch.getText();
+            }
+        });
+        btnreset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // reset the table back to alphbetic
                 File file = new File("Quotes.txt");
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(file));
@@ -53,14 +89,6 @@ public class Allquotesform extends JFrame {
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
-            }
-        });
-        btnaddbook.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                Booksavequotes addBSQ = new Booksavequotes();
-                addBSQ.show();
             }
         });
     }

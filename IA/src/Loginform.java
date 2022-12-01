@@ -22,24 +22,42 @@ public class Loginform extends JFrame {
         setVisible(true);
         File bFile = new File("Booktracker.txt");
         File qFile = new File("Quotes.txt");
-
+        File pfile = new File("Password.txt");//file to store login is created
+        try {
+            FileWriter psfw = new FileWriter(pfile);
+            String password = "Lara Paulina Tsai~122021";
+            psfw.write(password);//login information is put on the file
+            psfw.close();
+        }
+        catch (IOException i){
+            dispose();
+            System.out.println(i.getMessage());
+        }
         btnlogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtuser.getText().equals("nwteren")&& txtpass.getText().equals("password")) {
+                try{
+                    String line = (new String(readFromFile("Password.txt",
+                            0, 24)));
+                    String [] l1 = line.split("~");
+                    if (txtuser.getText().equals(l1[0])&& txtpass.getText().equals(l1[1])){
+                        //if password is put correctly then
+                        writeToFile(pfile.getPath(), "13h4j1oi4n5k2i34", 3);
+                        //use of random acces code to scramble the files contents
+                        dispose();
+                        Mainform mF1 = new Mainform();
+                        mF1.show();
+                    }
+                    else{
+                        txtuser.setText("incorrect username or password. retry");
+                        txtpass.setText("");//validation check if the user inputs the right password
+                    }
+                }
+                catch (IOException i){
                     dispose();
-                    Mainform mF1 = new Mainform();
-                    mF1.show();
+                    System.out.println(i.getMessage());
                 }
-                else if (txtuser.getText().equals("larapaulina")&& txtpass.getText().equals("0709")){
-                    dispose();
-                    Mainform mF1 = new Mainform();
-                    mF1.show();
-                }
-                else{
-                    txtuser.setText("incorrect username or password. retry");
-                    txtpass.setText("");
-                }
+
             }
         });
 
@@ -72,5 +90,21 @@ public class Loginform extends JFrame {
     }
     public static void main(String[] args){
         Loginform LF = new Loginform();
+    }
+    private static byte[] readFromFile(String filePath, int position, int size)
+            throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "r");
+        file.seek(position);
+        byte[] bytes = new byte[size];
+        file.read(bytes);
+        file.close();
+        return bytes;
+    }
+    private static void writeToFile(String filePath, String data, int position)
+            throws IOException {
+        RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+        file.seek(position);
+        file.write(data.getBytes());
+        file.close();
     }
 }

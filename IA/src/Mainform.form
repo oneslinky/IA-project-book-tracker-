@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Mainform">
-  <grid id="27dc6" binding="mform" layout-manager="GridLayoutManager" row-count="26" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mform" layout-manager="GridLayoutManager" row-count="26" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="1065" height="634"/>
@@ -28,18 +28,10 @@
       </component>
       <component id="c8abf" class="javax.swing.JButton" binding="btnexit">
         <constraints>
-          <grid row="25" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="25" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Exit"/>
-        </properties>
-      </component>
-      <component id="f000e" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Reccomendations"/>
         </properties>
       </component>
       <component id="23e9" class="javax.swing.JButton" binding="btnfinread">
@@ -63,22 +55,6 @@
           </component>
         </children>
       </scrollpane>
-      <scrollpane id="a0dee" binding="jpdisplayrec">
-        <constraints>
-          <grid row="3" column="4" row-span="21" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </scrollpane>
-      <component id="a0579" class="javax.swing.JButton" binding="btnrecc">
-        <constraints>
-          <grid row="1" column="4" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="View all Recomendations"/>
-        </properties>
-      </component>
       <component id="bc3a5" class="javax.swing.JButton" binding="btneditcurr">
         <constraints>
           <grid row="24" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>

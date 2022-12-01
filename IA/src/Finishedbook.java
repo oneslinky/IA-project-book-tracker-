@@ -14,7 +14,11 @@ public class Finishedbook {
         character = c;
         review = r;
         emotionScale = eS;
-    }
+    }//finished book object that stores all data for book
+    public String toString(){
+        return "\n" + bookTitle + "~" + authorName + "~" + starRating + "~" + genre + "~"
+                + character + "~" + review + "~" + emotionScale +  "~";
+    }//to string method that has certain formatting for title file consistency and regex
     public void setBookTitle(String bT){
         bookTitle = bT;
     }
@@ -36,6 +40,7 @@ public class Finishedbook {
     public void setEmotionScale(String eS){
         emotionScale = eS;
     }
+    //getter method used for setting text in dialouge boxes
     public String getBookTitle(){
        return  bookTitle;
     }
@@ -56,8 +61,5 @@ public class Finishedbook {
     }
     public String getEmotionScale(){
         return emotionScale;
-    }
-    public String toString(){
-        return "\n" + bookTitle + "~" + authorName + "~" + starRating + "~" + genre + "~" + character + "~" + review + "~" + emotionScale +  "~";
     }
 }

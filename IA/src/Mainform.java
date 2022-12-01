@@ -10,11 +10,9 @@ public class Mainform extends JFrame {
     private JButton btnallbookquote;
     private JButton btnquotes;
     private JButton btneditcurr;
-    private JButton btnrecc;
     private JButton btnexit;
     private JPanel mform;
     private JScrollPane scrollpanel;
-    private JScrollPane jpdisplayrec;
     private JTextArea txtranquote;
     private JTable tblbooks;
     private JLabel lblcurrreadtitle;
@@ -36,11 +34,14 @@ public class Mainform extends JFrame {
             BufferedReader br = new BufferedReader(fr);
             lineNumber = 1;
             String s;
-            while ((s = br.readLine())!=null){
+            while ((s = br.readLine())!=null){//read the current line until there are no more lines
                 if(lineNumber > 1){
-                     String [] quotes = s.split("~");
-                    for(int i = 0; i < quotes.length; i++){
-                        allquotes.add(quotes[i]);
+                     String [] quotes = s.split("~");//placing all the data into an array
+                     String [] quotes2 = new String[] {quotes[1],quotes[2],quotes[3],quotes[4],quotes[5],
+                             quotes[6],quotes[7],quotes[8],quotes[9]};
+                     //transferring the data and removing the unneeded value
+                    for(int i = 0; i < quotes2.length; i++){
+                        allquotes.add(quotes2[i]);//adding the strings to an arraylist
                     }
                 }
                 lineNumber++;
@@ -49,12 +50,12 @@ public class Mainform extends JFrame {
         catch (IOException h){
             System.out.println(h.getMessage());
         }
-        if(allquotes.size() > 0){
-            int dquote = (int)(Math.random()*(allquotes.size()+1+1));
-            txtranquote.setText(allquotes.get(dquote));
+        if(allquotes.size() > 0){//validation check if the arraylist contains values
+            int dquote = (int)(Math.random()*(allquotes.size()+1+1));//randomize an index based on the size of the arraylist
+            txtranquote.setText(allquotes.get(dquote));//displaying the choosen data value from the random index number
         }
         else{
-            txtranquote.setText("Enter quotes for this feature to work");
+            txtranquote.setText("Enter quotes for this feature to work");//validation check
         }
         File file = new File("Booktracker.txt");
         try {
@@ -145,14 +146,7 @@ public class Mainform extends JFrame {
                 curredit.show();
             }
         });
-        btnrecc.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                Recommendationform bookreccs = new Recommendationform();
-                bookreccs.show();
-            }
-        });
+
         btnexit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
