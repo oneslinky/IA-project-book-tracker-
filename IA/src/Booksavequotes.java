@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Locale;
+
 public class Booksavequotes extends JFrame {
     private JPanel onebookquotes;
     private JButton btnsave;
@@ -37,19 +39,27 @@ public class Booksavequotes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Quotes bookquotes = new Quotes (txtbtitle.getText(), txtq0.getText(), txtq1.getText(), txtq2.getText(), txtq3.getText(), txtq4.getText(), txtq5.getText() , txtq6.getText(), txtq7.getText(),txtq8.getText(),txtq9.getText());
-                    quoteList.add(bookquotes);
-                    String text = bookquotes.toString();
-                    FileWriter fwriter = new FileWriter( "Quotes.txt", true);
-                    fwriter.write(text);
-                    fwriter.close();
+                    if (txtbtitle.getText().equals("")||txtbtitle.getText().equals("please fill out a title")){
+                        txtbtitle.setText("please fill out a title");
+                    }
+                    else{
+                        Quotes bookquotes = new Quotes (txtbtitle.getText(), txtq0.getText(), txtq1.getText(),
+                                txtq2.getText(), txtq3.getText(), txtq4.getText(),
+                                txtq5.getText() , txtq6.getText(), txtq7.getText(),txtq8.getText(),txtq9.getText());
+                        quoteList.add(bookquotes);
+                        String text = bookquotes.toString();FileWriter fwriter = new FileWriter( "Quotes.txt", true);
+                        fwriter.write(text);
+                        fwriter.close();
+                        dispose();
+                        Allquotesform aQuotes = new Allquotesform();
+                        aQuotes.show();
+                    }
+
                 }
                 catch (IOException h) {
                     System.out.print(h.getMessage());
                 }
-                dispose();
-                Allquotesform aQuotes = new Allquotesform();
-                aQuotes.show();
+
 
             }
         });
@@ -65,7 +75,7 @@ public class Booksavequotes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(txtbtitle.getText().equals("")){
-                    txtbtitle.setText("enter book title you want to edit the details of(case sensitive)");
+                    txtbtitle.setText("enter book title you want to edit the details of");
                     txtq0.setText("");
                     txtq1.setText("");
                     txtq2.setText("");
@@ -79,14 +89,16 @@ public class Booksavequotes extends JFrame {
                 }
                 else {
                     quotetitle = txtbtitle.getText();
+                    String quotetitleLow = quotetitle.toLowerCase(Locale.ROOT);
                     try {
                         FileReader fr = new FileReader("Quotes.txt");
                         BufferedReader br = new BufferedReader(fr);
                         String s;
                         while ((s = br.readLine())!=null){
                             String [] quotedetails = s.split("~");
+                            String quotedetailsLow = quotedetails[0].toLowerCase(Locale.ROOT);
                             editEnd++;
-                            if(quotetitle.equals(quotedetails[0])){
+                            if(quotetitleLow.equals(quotedetailsLow)){
                                 txtbtitle.setText(quotedetails[0]);
                                 txtq0.setText(quotedetails[1]);
                                 txtq1.setText(quotedetails[2]);
@@ -101,7 +113,7 @@ public class Booksavequotes extends JFrame {
                                 break;
                             }
                             else{
-                                txtbtitle.setText("enter book title you want to edit the details of(case sensitive)");
+                                txtbtitle.setText("enter book title you want to edit the details of");
                                 txtq0.setText("");
                                 txtq1.setText("");
                                 txtq2.setText("");
@@ -136,7 +148,10 @@ public class Booksavequotes extends JFrame {
                     while ((s = br.readLine())!=null){
                         if(editStart == editEnd-1){
                             String [] quoteDetail = s.split("~");
-                            quotesOld = new Quotes(quoteDetail[0],quoteDetail[1],quoteDetail[2],quoteDetail[3],quoteDetail[4],quoteDetail[5],quoteDetail[6],quoteDetail[7],quoteDetail[8],quoteDetail[9],quoteDetail[10]);
+                            quotesOld = new Quotes(quoteDetail[0],quoteDetail[1],
+                                    quoteDetail[2],quoteDetail[3],quoteDetail[4],
+                                    quoteDetail[5],quoteDetail[6],quoteDetail[7],
+                                    quoteDetail[8],quoteDetail[9],quoteDetail[10]);
                             StringOld = quotesOld.toString();
                         }
                         editStart++;
@@ -148,7 +163,9 @@ public class Booksavequotes extends JFrame {
                 try{
                     FileReader fr = new FileReader("Quotes.txt");
                     BufferedReader br = new BufferedReader(fr);
-                    quotesNew = new Quotes(txtbtitle.getText(),txtq0.getText(), txtq1.getText(), txtq2.getText(), txtq3.getText(), txtq4.getText(), txtq5.getText() , txtq6.getText(), txtq7.getText(),txtq8.getText(),txtq9.getText());
+                    quotesNew = new Quotes(txtbtitle.getText(),txtq0.getText(), txtq1.getText(),
+                            txtq2.getText(), txtq3.getText(), txtq4.getText(), txtq5.getText() ,
+                            txtq6.getText(), txtq7.getText(),txtq8.getText(),txtq9.getText());
                     StringNew = quotesNew.toString();
                     String currentReadingLine = br.readLine();
                     while (currentReadingLine != null) {

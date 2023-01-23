@@ -28,7 +28,7 @@ public class Finishedreadingform extends JFrame {
     private JComboBox cmbfilter;
     int startlineNumber = 0;
     int endLineNumber = 0 ;
-    static ArrayList <String> finishedbooksunsort = new ArrayList<String>();
+    ArrayList <String> finishedbooksunsort = new ArrayList<String>();
     static Stack<String> sStack = new Stack<String>();
     ArrayList <String> bookforfilter = new ArrayList<String>();
     static Queue <String> fQueue = new PriorityQueue<String>();
@@ -127,6 +127,7 @@ public class Finishedreadingform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String filter = txtfilter.getText();
+                String filterLow = filter.toLowerCase(Locale.ROOT);
                 try{
                     ((DefaultTableModel)tblread.getModel()).setNumRows(0);
                     if(cmbfilter.getSelectedIndex() == 2){
@@ -145,7 +146,7 @@ public class Finishedreadingform extends JFrame {
                             bookforfilter.add(line);
                         }
                         //recursion search
-                        recSearch(bookforfilter, bookforfilter.size()-1, 3,filter);
+                        recSearch(bookforfilter, bookforfilter.size()-1, 3,filterLow);
                         while(!fQueue.isEmpty()){
                             //place the items in the queue into the table
                             String temp = fQueue.remove();
@@ -155,7 +156,7 @@ public class Finishedreadingform extends JFrame {
                         packRows(tblread,50);
                         tablepanel.add(new JTable(model));
                         if(model.getRowCount()==0){
-                            txtfilter.setText("If table is blank reset and try inputting again (Program is case sensitive)");
+                            txtfilter.setText("If table is blank reset and try inputting again");
                         }
                     }
                     else if (cmbfilter.getSelectedIndex()==1){
@@ -170,15 +171,21 @@ public class Finishedreadingform extends JFrame {
                         for(int i = 0; i < tableLines.length; i++)
                         {
                             String line = tableLines[i].toString().trim();
-                            String[] dataRow = line.split("~");
-                            if (dataRow[1].equals(filter)){
-                                model.addRow(dataRow);
-                            }
+                            //put text file into an arraylist
+                            bookforfilter.add(line);
+                        }
+                        //recursion search
+                        recSearch(bookforfilter, bookforfilter.size()-1, 1,filterLow);
+                        while(!fQueue.isEmpty()){
+                            //place the items in the queue into the table
+                            String temp = fQueue.remove();
+                            String [] tempRow = temp.split("~");
+                            model.addRow(tempRow);
                         }
                         packRows(tblread,50);
                         tablepanel.add(new JTable(model));
                         if(model.getRowCount()==0){
-                            txtfilter.setText("If table is blank reset and try inputting again (Program is case sensitive)");
+                            txtfilter.setText("If table is blank reset and try inputting again");
                         }
                     }
                 }
@@ -230,7 +237,8 @@ public class Finishedreadingform extends JFrame {
         //split line using regex
         String [] detail = lineDetail.split("~");
         //compare the book with the filter
-        if (detail[selectIndex].equals(filter)) {
+        String detailLow = detail[selectIndex].toLowerCase(Locale.ROOT);
+        if (detailLow.equals(filter)) {
             //add book to queue
             fQueue.add(arrayList.get(l));
         }
@@ -260,5 +268,4 @@ public class Finishedreadingform extends JFrame {
             }
         }
     }
-
 }

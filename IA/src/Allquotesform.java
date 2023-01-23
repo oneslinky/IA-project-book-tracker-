@@ -1,11 +1,11 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.*;
 
 public class Allquotesform extends JFrame {
     private JPanel allquote;
@@ -16,7 +16,9 @@ public class Allquotesform extends JFrame {
     private JScrollPane tablepanel;
     private JTextField txtbooksearch;
     private JButton btnreset;
-
+    static Queue<String> fQueue = new PriorityQueue<String>();
+    ArrayList <String> quotesforfilter = new ArrayList<String>();
+    ArrayList <String> finishedquotesunsort = new ArrayList<String>();
     public Allquotesform() {
         setContentPane(allquote);
         setTitle("Book Tracker");
@@ -33,8 +35,13 @@ public class Allquotesform extends JFrame {
             Object[] tableLines = br.lines().toArray();
             for (int i = 0; i < tableLines.length; i++) {
                 String line = tableLines[i].toString().trim();
-                String[] dataRow = line.split("~");
-                model.addRow(dataRow);
+                finishedquotesunsort.add(line);
+            }
+            Collections.sort(finishedquotesunsort);
+            for(int i = 0; i<tableLines.length; i++){
+                String line = finishedquotesunsort.get(i);
+                String [] sortedbook = line.split("~");
+                model.addRow(sortedbook);
             }
             tblquotes.setRowHeight(0,30);
             packRows(tblquotes,50);
@@ -63,12 +70,38 @@ public class Allquotesform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String bookSearched = txtbooksearch.getText();
+                try{
+                ((DefaultTableModel) tblquotes.getModel()).setNumRows(0);
+                tblquotes.setRowHeight(0, 60);
+                tblquotes.setRowHeight(100);
+                BufferedReader br = new BufferedReader(new FileReader("Quotes.txt"));
+                String firstLine = br.readLine().trim();
+                String[] columnsName = firstLine.split("~");
+                DefaultTableModel model = (DefaultTableModel) tblquotes.getModel();
+                model.setColumnIdentifiers(columnsName);
+                Object[] tableLines = br.lines().toArray();
+                for (int i = 0; i < tableLines.length; i++) {
+                    String line = tableLines[i].toString().trim();
+                    //put text file into an arraylist
+                    quotesforfilter.add(line);
+                }
+                //recursion search
+                recSearch(quotesforfilter, quotesforfilter.size() - 1, 0, bookSearched);
+                while (!fQueue.isEmpty()) {
+                    //place the items in the queue into the table
+                    String temp = fQueue.remove();
+                    String[] tempRow = temp.split("~");
+                    model.addRow(tempRow);
+                }}
+                catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
         });
+
         btnreset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // reset the table back to alphbetic
                 File file = new File("Quotes.txt");
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(file));
@@ -91,6 +124,21 @@ public class Allquotesform extends JFrame {
                 }
             }
         });
+    }
+    static void recSearch(ArrayList<String> arrayList, int l, int selectIndex, String filter) {
+        //get line at the index of the arraylist
+        String lineDetail = arrayList.get(l);
+        //split line using regex
+        String[] detail = lineDetail.split("~");
+        //compare the book with the filter
+        if (detail[selectIndex].equals(filter)) {
+            //add book to queue
+            fQueue.add(arrayList.get(l));
+        }
+        if (!(l == 0)) {
+            //recurse
+            recSearch(arrayList, l - 1, selectIndex, filter);
+        }
     }
     public static class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
 

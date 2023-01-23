@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Locale;
+
 public class Addnewfinishedbookform extends JFrame {
     private JTextArea txtgenre;
     private JTextArea txtchar;
@@ -41,27 +43,55 @@ public class Addnewfinishedbookform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    //grab the written data from user
-                    Finishedbook finBook = new Finishedbook (txtbtitle.getText(), txtauthname.getText(),
-                            txtstarrate.getText(), txtgenre.getText(), txtchar.getText(),
-                            txtreview.getText(), txtescale.getText());
-                    String text = finBook.toString();
-                    //place as a to string method so it has "~" symbol for Regex use when displaying
-                    finishedreading.add(finBook);
-                    //find and append the text file
-                    FileWriter fwriter = new FileWriter( "Booktracker.txt", true);
-                    /*use the file writer class to add new text on the file while
-                    keeping data integrity from the true append*/
-                    fwriter.write(text);
-                    fwriter.close();
+                    if (txtbtitle.getText().equals("")){
+                        txtbtitle.setText("please fill out all book details");
+                    }
+                    else if (txtbtitle.getText().equals("enter book title you want to edit the details of")
+                    ||txtbtitle.getText().equals("please fill out all book details")
+                            ||txtbtitle.getText().equals("enter a different book")){
+                        txtbtitle.setText("please fill out all book details");
+                    }
+                    else if (!(txtbtitle.getText()==null)){
+                        String title = txtbtitle.getText();
+                        String titleLow = title.toLowerCase(Locale.ROOT);
+                        int flag = 0;
+                        FileReader fr = new FileReader("Booktracker.txt");
+                        BufferedReader br = new BufferedReader(fr);
+                        String s;
+                        while ((s = br.readLine())!=null){
+                            String[] detail = s.split("~");
+                            String detailLow = detail[0].toLowerCase(Locale.ROOT);
+                            if (titleLow.equals(detailLow)){
+                                txtbtitle.setText("enter NEW different book");
+                                flag++;
+                                break;
+                            }
+                        }
+                        if (flag==0){
+                            //grab the written data from user
+                            Finishedbook finBook = new Finishedbook (txtbtitle.getText(), txtauthname.getText(),
+                                    txtstarrate.getText(), txtgenre.getText(), txtchar.getText(),
+                                    txtreview.getText(), txtescale.getText());
+                            String text = finBook.toString();
+                            //place as a to string method so it has "~" symbol for Regex use when displaying
+                            finishedreading.add(finBook);
+                            //find and append the text file
+                            FileWriter fwriter = new FileWriter( "Booktracker.txt", true);
+                            /*use the file writer class to add new text on the file while
+                            keeping data integrity from the true append*/
+                            fwriter.write(text);
+                            fwriter.close();
+                            dispose();
+                            Finishedreadingform fReading = new Finishedreadingform();
+                            fReading.show();
+                        }
+                    }
                 }
                 catch (IOException h) {
                     System.out.println(h.getMessage());
                     dispose();
                 }
-                dispose();
-                Finishedreadingform fReading = new Finishedreadingform();
-                fReading.show();
+
             }
         });
         goBackButton.addActionListener(new ActionListener() {
@@ -183,7 +213,7 @@ public class Addnewfinishedbookform extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(txtbtitle.getText().equals("")){//validation check (did the user input anything?)
-                    txtbtitle.setText("enter book title you want to edit the details of(case sensitive)");
+                    txtbtitle.setText("enter book title you want to edit the details of");
                     txtauthname.setText("");
                     txtstarrate.setText("");
                     txtgenre.setText("");
@@ -193,6 +223,7 @@ public class Addnewfinishedbookform extends JFrame {
                 }
                 else {
                     booktitl = txtbtitle.getText();//input the existing string as the title for validation check
+                    String booktitlLow = booktitl.toLowerCase(Locale.ROOT);
                     try {
                         FileReader fr = new FileReader("Booktracker.txt");
                         BufferedReader br = new BufferedReader(fr);
@@ -201,7 +232,8 @@ public class Addnewfinishedbookform extends JFrame {
                             //check if the line has words in the file and places the entire line in S
                             String [] bookDetail = s.split("~");//split the line into an array
                             editEnd++;//mark the end index of the found title for data integrity
-                            if(booktitl.equals(bookDetail[0])){
+                            String bookTitleLow = bookDetail[0].toLowerCase(Locale.ROOT);
+                            if(booktitlLow.equals(bookTitleLow)){
                                 txtbtitle.setText(bookDetail[0]);
                                 txtauthname.setText(bookDetail[1]);
                                 txtstarrate.setText(bookDetail[2]);
@@ -213,7 +245,7 @@ public class Addnewfinishedbookform extends JFrame {
                             }
                             else{//validation check that the book title inputted is a valid book in the file.
                                 txtbtitle.setText(
-                                        "enter book title you want to edit the details of(case sensitive)");
+                                        "enter book title you want to edit the details of");
                                 txtauthname.setText("");
                                 txtstarrate.setText("");
                                 txtgenre.setText("");
